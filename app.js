@@ -1,5 +1,14 @@
 var mercury = require('mercury');
+var Ndarray = require('ndarray');
+var Observ = require('observ');
 
-var Search = require('./');
+var Grid = require('./');
 
-mercury.app(document.body, Search().state, Search.render);
+var grid = Grid({
+  ndarray: new Ndarray([
+    "a","b","c","d","e","f","h","i","j",
+  ].map(Observ), [3, 3]),
+  Item: require('./item'),
+});
+
+mercury.app(document.body, grid.state, Grid.render);
