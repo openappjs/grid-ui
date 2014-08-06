@@ -1,15 +1,15 @@
 var h = require('virtual-hyperscript');
 var input = require('geval/multiple');
-var value = require('observ');
-var struct = require('observ-struct');
+var Observ = require('observ');
+var ObservStruct = require('observ-struct');
 var event = require('value-event/event')
 
 function Item (value) {
 
   var events = input(["click"]);
 
-  var state = struct({
-    value: value,
+  var state = ObservStruct({
+    value: Observ(value),
     events: events,
   });
 

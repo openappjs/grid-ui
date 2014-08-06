@@ -7,7 +7,7 @@ var Grid = require('./');
 var grid = Grid({
   ndarray: new Ndarray([
     "a","b","c","d","e","f","h","i","j",
-  ].map(Observ), [3, 3]),
+  ], [3, 3]),
   Item: require('./item'),
 });
 
