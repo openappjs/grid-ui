@@ -1,7 +1,7 @@
 {
-  "name": "oa-search-ui",
+  "name": "grid-ui",
   "version": "0.0.0",
-  "description": "OpenApp search user interface",
+  "description": "ndarray grid user interface",
   "main": "index.js",
   "scripts": {
     "develop": "beefy app.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/open-app/search-ui.git"
+    "url": "git://github.com/open-app/grid-ui.git"
   },
   "author": "open-app",
   "license": "AGPLv3",
   "bugs": {
-    "url": "https://github.com/open-app/search-ui/issues"
+    "url": "https://github.com/open-app/grid-ui/issues"
   },
-  "homepage": "https://github.com/open-app/search-ui",
+  "homepage": "https://github.com/open-app/grid-ui",
   "dependencies": {
     "geval": "^2.1.1",
     "mercury": "^6.0.1",
