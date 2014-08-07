@@ -4,7 +4,7 @@
   "description": "ndarray grid user interface",
   "main": "index.js",
   "scripts": {
-    "develop": "beefy app.js",
+    "develop": "beefy -p 5000 app.js -- -t cssify",
     "test": "mocha --recursive test"
   },
   "repository": {
@@ -28,6 +28,7 @@
     "virtual-hyperscript": "^4.4.0"
   },
   "devDependencies": {
-    "beefy": "^2.1.0"
+    "beefy": "^2.1.0",
+    "cssify": "^0.5.1"
   }
 }

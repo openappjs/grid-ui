@@ -2,6 +2,8 @@ var mercury = require('mercury');
 var Ndarray = require('ndarray');
 var Observ = require('observ');
 
+require('./index.css');
+
 var Grid = require('./');
 
 var grid = Grid({
