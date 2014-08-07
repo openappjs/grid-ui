@@ -2,10 +2,10 @@ var mercury = require('mercury');
 var Ndarray = require('ndarray');
 var Observ = require('observ');
 
-require('./index.css');
+require('../index.css');
 require('./item.css');
 
-var Grid = require('./');
+var Grid = require('../');
 
 var grid = Grid({
   ndarray: new Ndarray([
