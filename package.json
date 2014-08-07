@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/open-app/grid-ui.git"
+    "url": "git://github.com/ahdinosaur/grid-ui.git"
   },
-  "author": "open-app",
+  "author": "ahdinosaur",
   "license": "AGPLv3",
   "bugs": {
-    "url": "https://github.com/open-app/grid-ui/issues"
+    "url": "https://github.com/ahdinosaur/grid-ui/issues"
   },
-  "homepage": "https://github.com/open-app/grid-ui",
+  "homepage": "https://github.com/ahdinosaur/grid-ui",
   "dependencies": {
     "geval": "^2.1.1",
     "mercury": "^6.0.1",
