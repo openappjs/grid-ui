@@ -1,9 +1,12 @@
-.grid {
+.ui.grid > .controls {
+
+}
+.ui.grid > .rows {
   display: block;
 }
-.grid > .row {
+.ui.grid > .rows > .row {
   display: block;
 }
-.grid > .row > .item {
+.ui.grid > .rows > .row > .item {
   display: inline-block;
 }

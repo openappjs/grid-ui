@@ -43,13 +43,15 @@ grid.render = function (state, events) {
     rows.push(row);
   }
 
-  return h('div.ui.grid.control', {}, )h('div.grid', {}, rows.map(function (row) {
-    return h('div.row', {
-      'ev-click': event(state.events.click),
-    }, row.map(function (item) {
-      return h('div.item', {}, item)
-    }));
-  }))
+  return h('div.ui.grid', {}, [
+    h('div.rows', {}, rows.map(function (row) {
+      return h('div.row', {
+        'ev-click': event(state.events.click),
+      }, row.map(function (item) {
+        return h('div.item', {}, item)
+      }));
+    }))
+  ])
   ;
 }
 
