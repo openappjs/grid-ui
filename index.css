@@ -1,8 +1,13 @@
+.ui.grid {
+  display: inline-block;
+  border: 1px black;
+  padding: 2em;
+}
 .ui.grid > .controls {
-
+  display: inline-block;
 }
 .ui.grid > .rows {
-  display: block;
+  display: inline;
 }
 .ui.grid > .rows > .row {
   display: block;
