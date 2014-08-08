@@ -1,3 +1,4 @@
+var debug = require('debug')('grid-ui');
 var h = require('virtual-hyperscript');
 var input = require('geval/multiple');
 var event = require('value-event/event')
@@ -31,6 +32,7 @@ function grid (options) {
   });
 
   events.shapeX(function (data) {
+    debug("shapeX", data);
     var shapeX = parseInt(data.shapeX, 10);
     var ndarray = state().ndarray;
     ndarray.shape = [shapeX, ndarray.shape[1]];
@@ -39,6 +41,7 @@ function grid (options) {
   });
 
   events.shapeY(function (data) {
+    debug("shapeY", data);
     var shapeY = parseInt(data.shapeY, 10);
     var ndarray = state().ndarray;
     ndarray.shape = [ndarray.shape[0], shapeY];
@@ -46,10 +49,14 @@ function grid (options) {
     state.ndarray.set(ndarray);
   });
 
-  return { state: state };
+  debug("setup", state);
+
+  return { state: state, events: events };
 }
 
 grid.render = function (state, events) {
+  debug("render", state, events);
+
   var rows = [];
   for (var y = 0; y < state.ndarray.shape[1]; y++) {
     var row = [];
