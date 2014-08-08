@@ -2,15 +2,18 @@ var debug = require('debug')('grid-ui');
 var h = require('virtual-hyperscript');
 var input = require('geval/multiple');
 var event = require('value-event/event')
-var changeEvent = require('value-event/change')
+var valueEvent = require('value-event/value');
+var changeEvent = require('value-event/change');
 var Observ = require('observ');
 var ObservStruct = require('observ-struct');
 var ObservNdarray = require('observ-ndarray');
 var Ndarray = require('ndarray');
 
+var GRID_PADDING = 60;
+
 function grid (options) {
 
-  var events = input(["click", "shapeX", "shapeY"]);
+  var events = input(["edgeClick", "shapeX", "shapeY"]);
 
   // embed items in ndarray as Item components
   var ndarray = options.ndarray;
@@ -26,8 +29,23 @@ function grid (options) {
   });
 
   // setup events
-  events.click(function (data) {
-    console.log(data);
+  events.edgeClick(function (data) {
+    debug("edgeClick", data);
+    if (data.clientX < GRID_PADDING) {
+      debug("left click", data.clientX, data.clientY)
+
+    } else if (data.clientX > (data.target.clientWidth - (2 * GRID_PADDING))) {
+      debug("right click", data.clientX, data.clientY)
+
+    } else if (data.clientY < GRID_PADDING) {
+      debug("top click", data.clientX, data.clientY)
+
+    } else if (data.clientY > (data.target.clientHeight - (2 * GRID_PADDING))) {
+      debug("bottom click", data.clientX, data.clientY)
+
+    }
+    console.log(data.offsetX, data.target.offsetWidth - (2 * GRID_PADDING));
+    console.log(data.offsetY, data.target.offsetHeight - (2 * GRID_PADDING));
     //state.value.set(data);
   });
 
@@ -75,7 +93,10 @@ grid.render = function (state, events) {
     rows.push([]);
   }
 
-  return h('div.ui.grid', {}, [
+  return h('div.ui.grid', {
+    'ev-click': state.events.edgeClick,
+    //'ev-click': event(state.events.edgeClick),
+  }, [
     h('div.controls', {}, [
       h('input', {
         type: "number",
@@ -91,9 +112,7 @@ grid.render = function (state, events) {
       }),
     ]),
     h('div.rows', {}, rows.map(function (row) {
-      return h('div.row', {
-        'ev-click': event(state.events.click),
-      }, row.map(function (item) {
+      return h('div.row', {}, row.map(function (item) {
         return h('div.item', {}, item)
       }));
     }))

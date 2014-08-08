@@ -1,7 +1,7 @@
 .ui.grid {
   display: inline-block;
   border: 1px black;
-  padding: 2em;
+  padding: 60px;
 }
 .ui.grid > .controls {
   display: inline-block;
