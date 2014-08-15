@@ -11,7 +11,7 @@ var Ndarray = require('ndarray');
 
 var edgeEvent = require('./lib/edgeEvent');
 
-function grid (options) {
+function Grid (options) {
   options = options || {};
   var config = options.config || {};
 
@@ -31,7 +31,7 @@ function grid (options) {
       }),
     }),
     events: events,
-    render: Observ(grid.render),
+    render: Observ(Grid.render),
   });
 
   // setup events
@@ -56,7 +56,7 @@ function grid (options) {
   return { state: state, events: events };
 }
 
-grid.render = function (state, events) {
+Grid.render = function (state, events) {
   debug("render", state, events);
 
   var rows = [];
@@ -111,4 +111,4 @@ grid.render = function (state, events) {
   ;
 }
 
-module.exports = grid;
+module.exports = Grid;
