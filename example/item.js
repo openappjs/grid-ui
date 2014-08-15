@@ -19,6 +19,7 @@ function Item (value) {
   var state = ObservStruct({
     value: Observ(value),
     events: events,
+    render: Observ(Item.render),
   });
 
   events.click(function (data) {

@@ -10,25 +10,28 @@ var ObservNdarray = require('observ-ndarray');
 var Ndarray = require('ndarray');
 
 var edgeEvent = require('./lib/edgeEvent');
-var GRID_PADDING = 60;
-var ITEM_HEIGHT = 80;
-var ITEM_WIDTH = 80;
 
 function grid (options) {
+  options = options || {};
+  var config = options.config || {};
 
   var events = input(["setShape"]);
 
-  // embed items in ndarray as Item components
-  var ndarray = options.ndarray;
-  ndarray.data.forEach(function (item, index) {
-    ndarray.data[index] = options.Item(item).state;
-  });
-
   // setup state
   var state = ObservStruct({
-    Item: Observ(options.Item),
-    ndarray: ObservNdarray(ndarray),
+    model: ObservNdarray(options.model),
+    config: ObservStruct({
+      edgeSize: ObservStruct({
+        x: config.edgeSize && config.edgeSize.x || config.edgeSize,
+        y: config.edgeSize && config.edgeSize.y || config.edgeSize,
+      }),
+      itemSize: ObservStruct({
+        x: config.itemSize && config.itemSize.x || config.itemSize,
+        y: config.itemSize && config.itemSize.y || config.itemSize,
+      }),
+    }),
     events: events,
+    render: Observ(grid.render),
   });
 
   // setup events
@@ -39,13 +42,13 @@ function grid (options) {
     var shapeVal = parseInt(data.shape, 10);
 
     // get current value
-    var ndarray = state.ndarray();
+    var ndarray = state.model();
     // set shape and associated stride on value
     ndarray.shape[shapeDim] = shapeVal;
     ndarray.stride[0] = ndarray.shape[1];
 
     // set value to be state
-    state.ndarray.set(ndarray);
+    state.model.set(ndarray);
   });
 
   debug("setup", state);
@@ -57,36 +60,35 @@ grid.render = function (state, events) {
   debug("render", state, events);
 
   var rows = [];
-  for (var y = 0; y < state.ndarray.shape[1]; y++) {
+  for (var y = 0; y < state.model.shape[1]; y++) {
     var row = [];
-    for (var x = 0; x < state.ndarray.shape[0]; x++) {
-      var item = state.ndarray.get(x, y);
+    for (var x = 0; x < state.model.shape[0]; x++) {
+      var item = state.model.get(x, y);
       if (item) {
-        row.push(state.Item.render(item));
+        row.push(item.render(item));
       }
     }
     rows.push(row);
-    if (state.ndarray.shape[1] === 0) {
+    if (state.model.shape[1] === 0) {
       row.push([]);
     }
   }
-  if (state.ndarray.shape[0] === 0) {
+  if (state.model.shape[0] === 0) {
     rows.push([]);
   }
 
   return h('div.ui.grid', {
     'ev-mousedown': edgeEvent(state.events.setShape, {
-      gridPadding: GRID_PADDING,
-      itemWidth: ITEM_WIDTH,
-      itemHeight: ITEM_HEIGHT,
-      shape: state.ndarray.shape,
+      edgeSize: state.config.edgeSize,
+      itemSize: state.config.itemSize,
+      shape: state.model.shape,
     }),
   }, [
     h('div.controls', {}, [
       h('input', {
         type: "number",
         name: "shape",
-        value: state.ndarray.shape[0],
+        value: state.model.shape[0],
         'ev-event': changeEvent(state.events.setShape, {
           dim: 0,
         }),
@@ -94,7 +96,7 @@ grid.render = function (state, events) {
       h('input', {
         type: "number",
         name: "shape",
-        value: state.ndarray.shape[1],
+        value: state.model.shape[1],
         'ev-event': changeEvent(state.events.setShape, {
           dim: 1,
         }),
