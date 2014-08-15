@@ -9,6 +9,7 @@ var ObservStruct = require('observ-struct');
 var ObservNdarray = require('observ-ndarray');
 var Ndarray = require('ndarray');
 
+var edgeEvent = require('./lib/edgeEvent');
 var GRID_PADDING = 60;
 
 function grid (options) {
@@ -29,26 +30,6 @@ function grid (options) {
   });
 
   // setup events
-  events.edgeDown(function (data) {
-    debug("edgeDown", data);
-    if (data.clientX < GRID_PADDING) {
-      debug("left down", data.clientX, data.clientY)
-
-    } else if (data.clientX > (data.target.clientWidth - (2 * GRID_PADDING))) {
-      debug("right down", data.clientX, data.clientY)
-
-    } else if (data.clientY < GRID_PADDING) {
-      debug("top down", data.clientX, data.clientY)
-
-    } else if (data.clientY > (data.target.clientHeight - (2 * GRID_PADDING))) {
-      debug("bottom down", data.clientX, data.clientY)
-
-    }
-    console.log(data.offsetX, data.target.offsetWidth - (2 * GRID_PADDING));
-    console.log(data.offsetY, data.target.offsetHeight - (2 * GRID_PADDING));
-    //state.value.set(data);
-  });
-
   events.setShape(function (data) {
     debug("setShape", data);
     // get arguments
@@ -92,7 +73,9 @@ grid.render = function (state, events) {
   }
 
   return h('div.ui.grid', {
-    'ev-mousedown': state.events.edgeDown,
+    'ev-mousedown': edgeEvent(state.events.edgeDown, {
+      gridPadding: GRID_PADDING,
+    }),
   }, [
     h('div.controls', {}, [
       h('input', {
