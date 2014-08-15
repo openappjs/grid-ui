@@ -11,10 +11,12 @@ var Ndarray = require('ndarray');
 
 var edgeEvent = require('./lib/edgeEvent');
 var GRID_PADDING = 60;
+var ITEM_HEIGHT = 80;
+var ITEM_WIDTH = 80;
 
 function grid (options) {
 
-  var events = input(["edgeDown", "setShape"]);
+  var events = input(["setShape"]);
 
   // embed items in ndarray as Item components
   var ndarray = options.ndarray;
@@ -73,8 +75,11 @@ grid.render = function (state, events) {
   }
 
   return h('div.ui.grid', {
-    'ev-mousedown': edgeEvent(state.events.edgeDown, {
+    'ev-mousedown': edgeEvent(state.events.setShape, {
       gridPadding: GRID_PADDING,
+      itemWidth: ITEM_WIDTH,
+      itemHeight: ITEM_HEIGHT,
+      shape: state.ndarray.shape,
     }),
   }, [
     h('div.controls', {}, [
