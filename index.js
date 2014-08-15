@@ -53,8 +53,7 @@ function grid (options) {
     debug("setShape", data);
     // get arguments
     var shapeDim = data.dim;
-    var shapeName = "shape[" + shapeDim + "]";
-    var shapeVal = parseInt(data[shapeName], 10);
+    var shapeVal = parseInt(data.shape, 10);
 
     // get current value
     var ndarray = state.ndarray();
@@ -98,7 +97,7 @@ grid.render = function (state, events) {
     h('div.controls', {}, [
       h('input', {
         type: "number",
-        name: "shape[0]",
+        name: "shape",
         value: state.ndarray.shape[0],
         'ev-event': changeEvent(state.events.setShape, {
           dim: 0,
@@ -106,7 +105,7 @@ grid.render = function (state, events) {
       }),
       h('input', {
         type: "number",
-        name: "shape[1]",
+        name: "shape",
         value: state.ndarray.shape[1],
         'ev-event': changeEvent(state.events.setShape, {
           dim: 1,
