@@ -7,7 +7,7 @@ require('./item.css');
 
 var Grid = require('../');
 
-var shape = [8, 8];
+var shape = [4, 4];
 var numItems = shape[0] * shape[1];
 
 var items = [];
