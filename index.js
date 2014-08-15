@@ -13,7 +13,7 @@ var GRID_PADDING = 60;
 
 function grid (options) {
 
-  var events = input(["edgeClick", "shapeX", "shapeY"]);
+  var events = input(["edgeDown", "setShape"]);
 
   // embed items in ndarray as Item components
   var ndarray = options.ndarray;
@@ -29,19 +29,19 @@ function grid (options) {
   });
 
   // setup events
-  events.edgeClick(function (data) {
-    debug("edgeClick", data);
+  events.edgeDown(function (data) {
+    debug("edgeDown", data);
     if (data.clientX < GRID_PADDING) {
-      debug("left click", data.clientX, data.clientY)
+      debug("left down", data.clientX, data.clientY)
 
     } else if (data.clientX > (data.target.clientWidth - (2 * GRID_PADDING))) {
-      debug("right click", data.clientX, data.clientY)
+      debug("right down", data.clientX, data.clientY)
 
     } else if (data.clientY < GRID_PADDING) {
-      debug("top click", data.clientX, data.clientY)
+      debug("top down", data.clientX, data.clientY)
 
     } else if (data.clientY > (data.target.clientHeight - (2 * GRID_PADDING))) {
-      debug("bottom click", data.clientX, data.clientY)
+      debug("bottom down", data.clientX, data.clientY)
 
     }
     console.log(data.offsetX, data.target.offsetWidth - (2 * GRID_PADDING));
@@ -49,21 +49,20 @@ function grid (options) {
     //state.value.set(data);
   });
 
-  events.shapeX(function (data) {
-    debug("shapeX", data);
-    var shapeX = parseInt(data.shapeX, 10);
-    var ndarray = state().ndarray;
-    ndarray.shape = [shapeX, ndarray.shape[1]];
-    ndarray.stride = [ndarray.shape[1], 1];
-    state.ndarray.set(ndarray);
-  });
+  events.setShape(function (data) {
+    debug("setShape", data);
+    // get arguments
+    var shapeDim = data.dim;
+    var shapeName = "shape[" + shapeDim + "]";
+    var shapeVal = parseInt(data[shapeName], 10);
 
-  events.shapeY(function (data) {
-    debug("shapeY", data);
-    var shapeY = parseInt(data.shapeY, 10);
-    var ndarray = state().ndarray;
-    ndarray.shape = [ndarray.shape[0], shapeY];
-    ndarray.stride = [ndarray.shape[1], 1];
+    // get current value
+    var ndarray = state.ndarray();
+    // set shape and associated stride on value
+    ndarray.shape[shapeDim] = shapeVal;
+    ndarray.stride[0] = ndarray.shape[1];
+
+    // set value to be state
     state.ndarray.set(ndarray);
   });
 
@@ -94,21 +93,24 @@ grid.render = function (state, events) {
   }
 
   return h('div.ui.grid', {
-    'ev-click': state.events.edgeClick,
-    //'ev-click': event(state.events.edgeClick),
+    'ev-mousedown': state.events.edgeDown,
   }, [
     h('div.controls', {}, [
       h('input', {
         type: "number",
-        name: "shapeX",
+        name: "shape[0]",
         value: state.ndarray.shape[0],
-        'ev-event': changeEvent(state.events.shapeX),
+        'ev-event': changeEvent(state.events.setShape, {
+          dim: 0,
+        }),
       }),
       h('input', {
         type: "number",
-        name: "shapeY",
+        name: "shape[1]",
         value: state.ndarray.shape[1],
-        'ev-event': changeEvent(state.events.shapeY),
+        'ev-event': changeEvent(state.events.setShape, {
+          dim: 1,
+        }),
       }),
     ]),
     h('div.rows', {}, rows.map(function (row) {
