@@ -4,14 +4,6 @@ var Observ = require('observ');
 var ObservStruct = require('observ-struct');
 var event = require('value-event/event')
 
-function StyleHook (color) {
-  this.color = '#' + color;
-}
-
-StyleHook.prototype.hook = function (elem, prop) {
-  elem.setAttribute(prop, "background-color:" + this.color + ";");
-}
-
 function Item (value) {
 
   var events = input(["click"]);
@@ -31,8 +23,10 @@ function Item (value) {
 }
 
 Item.render = function (state, events) {
-  return h('div.square', {
-    'style': new StyleHook(state.value),
+  return h('div.wow', {
+    style: {
+      backgroundColor: "#" + state.value,
+    },
     'ev-click': event(state.events.click),
   }, state.value)
   ;

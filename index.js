@@ -78,6 +78,12 @@ Grid.render = function (state, events) {
   }
 
   return h('div.ui.grid', {
+    style: {
+      paddingBottom: state.config.edgeSize.y + "px",
+      paddingLeft: state.config.edgeSize.x + "px",
+      paddingRight: state.config.edgeSize.x + "px",
+      paddingTop: state.config.edgeSize.y + "px",
+    },
     'ev-mousedown': edgeEvent(state.events.setShape, {
       edgeSize: state.config.edgeSize,
       itemSize: state.config.itemSize,
@@ -104,7 +110,12 @@ Grid.render = function (state, events) {
     ]),
     h('div.rows', {}, rows.map(function (row) {
       return h('div.row', {}, row.map(function (item) {
-        return h('div.item', {}, item)
+        return h('div.item', {
+          style: {
+            width: state.config.itemSize.x + "px",
+            height: state.config.itemSize.y + "px",
+          },
+        }, item)
       }));
     }))
   ])
