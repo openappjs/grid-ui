@@ -64,7 +64,7 @@ Grid.render = function (state, events) {
     for (var x = 0; x < state.model.shape[0]; x++) {
       var item = state.model.get(x, y);
       if (item) {
-        row.push(item.render && item.render(item) || item);
+        row.push(item.render && item.render(item) || item.toString());
       }
     }
     rows.push(row);
