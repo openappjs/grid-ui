@@ -68,11 +68,11 @@ Grid.render = function (state, events) {
       }
     }
     rows.push(row);
-    if (state.model.shape[1] === 0) {
+    if (state.model.shape[0] === 0) {
       row.push([]);
     }
   }
-  if (state.model.shape[0] === 0) {
+  if (state.model.shape[1] === 0) {
     rows.push([]);
   }
 
