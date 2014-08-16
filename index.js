@@ -9,12 +9,13 @@ function Grid (options) {
   options = options || {};
   var config = options.config || {};
 
-  var events = mercury.input(["setShape"]);
+  var events = mercury.input(["setShape", "setDebug"]);
 
   // setup state
   var state = mercury.struct({
     model: ObservNdarray(options.model),
     config: mercury.struct({
+      debug: mercury.value(options.debug || false),
       edgeSize: mercury.struct({
         x: config.edgeSize && config.edgeSize.x || config.edgeSize || 40,
         y: config.edgeSize && config.edgeSize.y || config.edgeSize || 40,
@@ -43,6 +44,10 @@ function Grid (options) {
 
     // set value to be state
     state.model.set(ndarray);
+  });
+
+  events.setDebug(function (data) {
+    state.config.debug.set(data.debug);
   });
 
   debug("setup", state);
@@ -84,7 +89,13 @@ Grid.render = function (state, events) {
       shape: state.model.shape,
     }),
   }, [
-    h('div.controls', {}, [
+    h('input.debug', {
+      type: "checkbox",
+      name: "debug",
+      checked: state.config.debug ? "checked" : null,
+      'ev-event': mercury.changeEvent(state.events.setDebug),
+    }),
+    h('div.controls', {}, state.config.debug ? [
       h('input', {
         type: "number",
         name: "shape",
@@ -101,7 +112,7 @@ Grid.render = function (state, events) {
           dim: 1,
         }),
       }),
-    ]),
+    ] : []),
     h('div.rows', {}, rows.map(function (row) {
       return h('div.row', {}, row.map(function (item) {
         return h('div.item', {

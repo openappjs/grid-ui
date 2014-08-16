@@ -32,6 +32,7 @@ colors.forEach(function (color) {
 var grid = Grid({
   model: new Ndarray(items, shape),
   config: {
+    debug: true,
     edgeSize: 40,
     itemSize: {
       x: 80,
