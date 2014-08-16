@@ -22,12 +22,12 @@ function Grid (options) {
     model: ObservNdarray(options.model),
     config: ObservStruct({
       edgeSize: ObservStruct({
-        x: config.edgeSize && config.edgeSize.x || config.edgeSize,
-        y: config.edgeSize && config.edgeSize.y || config.edgeSize,
+        x: config.edgeSize && config.edgeSize.x || config.edgeSize || 40,
+        y: config.edgeSize && config.edgeSize.y || config.edgeSize || 40,
       }),
       itemSize: ObservStruct({
-        x: config.itemSize && config.itemSize.x || config.itemSize,
-        y: config.itemSize && config.itemSize.y || config.itemSize,
+        x: config.itemSize && config.itemSize.x || config.itemSize || 80,
+        y: config.itemSize && config.itemSize.y || config.itemSize || 80,
       }),
     }),
     events: events,
