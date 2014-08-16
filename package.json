@@ -18,13 +18,16 @@
     "url": "git://github.com/ahdinosaur/grid-ui.git"
   },
   "author": "ahdinosaur",
-  "licenses": [{
-    "type": "AGPL-3.0",
-    "url": "https://github.com/ahdinosaur/grid-ui/raw/master/LICENSE-AGPL-3.0.txt"
-  }, {
-    "type": "PPL",
-    "url": "https://github.com/ahdinosaur/grid-ui/raw/master/LICENSE-PPL.txt"
-  }],
+  "licenses": [
+    {
+      "type": "AGPL-3.0",
+      "url": "https://github.com/ahdinosaur/grid-ui/raw/master/LICENSE-AGPL-3.0.txt"
+    },
+    {
+      "type": "PPL",
+      "url": "https://github.com/ahdinosaur/grid-ui/raw/master/LICENSE-PPL.txt"
+    }
+  ],
   "bugs": {
     "url": "https://github.com/ahdinosaur/grid-ui/issues"
   },
