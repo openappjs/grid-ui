@@ -16,4 +16,4 @@ see [an example app](./example/app.js).
 
 ## license
 
-[Peer Production License](http://p2pfoundation.net/Peer_Production_License)
+dual-licensed under [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html) and [PPL](http://p2pfoundation.net/Peer_Production_License).
