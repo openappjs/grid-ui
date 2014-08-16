@@ -1,6 +1,5 @@
 var mercury = require('mercury');
 var Ndarray = require('ndarray');
-var Observ = require('observ');
 
 var Grid = require('../');
 

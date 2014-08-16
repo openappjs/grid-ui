@@ -1,17 +1,14 @@
-var h = require('virtual-hyperscript');
-var input = require('geval/multiple');
-var Observ = require('observ');
-var ObservStruct = require('observ-struct');
-var event = require('value-event/event')
+var mercury = require('mercury');
+var h = mercury.h;
 
 function Item (value) {
 
-  var events = input(["click"]);
+  var events = mercury.input(["click"]);
 
-  var state = ObservStruct({
-    value: Observ(value),
+  var state = mercury.struct({
+    value: mercury.value(value),
     events: events,
-    render: Observ(Item.render),
+    render: mercury.value(Item.render),
   });
 
   events.click(function (data) {
@@ -27,7 +24,7 @@ Item.render = function (state, events) {
     style: {
       backgroundColor: "#" + state.value,
     },
-    'ev-click': event(state.events.click),
+    'ev-click': mercury.event(state.events.click),
   }, state.value)
   ;
 }

@@ -1,13 +1,7 @@
 var debug = require('debug')('grid-ui');
-var h = require('virtual-hyperscript');
-var input = require('geval/multiple');
-var event = require('value-event/event')
-var valueEvent = require('value-event/value');
-var changeEvent = require('value-event/change');
-var Observ = require('observ');
-var ObservStruct = require('observ-struct');
+var mercury = require('mercury');
+var h = mercury.h;
 var ObservNdarray = require('observ-ndarray');
-var Ndarray = require('ndarray');
 
 var edgeEvent = require('./lib/edgeEvent');
 
@@ -15,23 +9,23 @@ function Grid (options) {
   options = options || {};
   var config = options.config || {};
 
-  var events = input(["setShape"]);
+  var events = mercury.input(["setShape"]);
 
   // setup state
-  var state = ObservStruct({
+  var state = mercury.struct({
     model: ObservNdarray(options.model),
-    config: ObservStruct({
-      edgeSize: ObservStruct({
+    config: mercury.struct({
+      edgeSize: mercury.struct({
         x: config.edgeSize && config.edgeSize.x || config.edgeSize || 40,
         y: config.edgeSize && config.edgeSize.y || config.edgeSize || 40,
       }),
-      itemSize: ObservStruct({
+      itemSize: mercury.struct({
         x: config.itemSize && config.itemSize.x || config.itemSize || 80,
         y: config.itemSize && config.itemSize.y || config.itemSize || 80,
       }),
     }),
     events: events,
-    render: Observ(Grid.render),
+    render: mercury.value(Grid.render),
   });
 
   // setup events
@@ -95,7 +89,7 @@ Grid.render = function (state, events) {
         type: "number",
         name: "shape",
         value: state.model.shape[0],
-        'ev-event': changeEvent(state.events.setShape, {
+        'ev-event': mercury.changeEvent(state.events.setShape, {
           dim: 0,
         }),
       }),
@@ -103,7 +97,7 @@ Grid.render = function (state, events) {
         type: "number",
         name: "shape",
         value: state.model.shape[1],
-        'ev-event': changeEvent(state.events.setShape, {
+        'ev-event': mercury.changeEvent(state.events.setShape, {
           dim: 1,
         }),
       }),
