@@ -12,7 +12,7 @@ npm i --save grid-ui
 
 ## example
 
-see [./examples/app](an example app).
+see [an example app](./example/app.js).
 
 ## license
 
