@@ -4,7 +4,7 @@
   padding: 60px;
 }
 .ui.grid > .controls {
-  display: inline-block;
+  display: block;
 }
 .ui.grid > .rows {
   display: inline;
