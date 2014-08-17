@@ -16,7 +16,7 @@ function Grid (options) {
   var state = mercury.struct({
     model: ObservNdarray(options.model),
     config: mercury.struct({
-      debug: mercury.value(options.debug || false),
+      debug: mercury.value(options.config.debug || false),
       edgeSize: mercury.struct({
         x: config.edgeSize && config.edgeSize.x || config.edgeSize || 40,
         y: config.edgeSize && config.edgeSize.y || config.edgeSize || 40,
