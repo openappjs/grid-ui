@@ -44,7 +44,7 @@ test("creating a 4x4 grid of random content", function (t) {
 
     var debugToggle = el.childNodes[0];
     t.ok(debugToggle);
-    t.equal(debugToggle.className, "debug");
+    t.equal(debugToggle.className, "debug toggle");
     var controls = el.childNodes[1];
     t.ok(controls);
     t.equal(controls.className, "controls");
