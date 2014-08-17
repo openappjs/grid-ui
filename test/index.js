@@ -8,6 +8,15 @@ var stringify = require('node-stringify');
 
 var Grid = require('../');
 
+// if we are in a browser
+if (process.browser) {
+  // include example app styles
+  require('../example/app.css');
+
+  // include grid-ui styles
+  require('../index.css');
+}
+
 function end (t, el) {
   // cleanup
   document.body.removeChild(el);
