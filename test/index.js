@@ -16,7 +16,6 @@ test("creating a 4x4 grid of random content", function (t) {
   var grid = Grid({
     model: ndarray,
     config: {
-      debug: true,
       edgeSize: 40,
       itemSize: {
         x: 80,
