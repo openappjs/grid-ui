@@ -157,3 +157,62 @@ test("change shape of grid with controls", function (t) {
     });
   });
 });
+
+function simulateClient (el, state) {
+  var shape = state.model.shape.slice();
+  el.clientWidth = el.clientWidth ||
+    (state.config.itemSize.x * shape[0] + (state.config.edgeSize.x * 2));
+  el.clientHeight = el.clientHeight ||
+    (state.config.itemSize.y * shape[1] + (state.config.edgeSize.y * 2));
+}
+
+test("change shape of grid by dragging right edge", function (t) {
+  var data = [
+    0,1,2,3,4,5
+  ];
+  var grid = Grid({
+    model: new Ndarray(data, [2, 3]),
+    config: {
+      edgeSize: {
+        x: 80,
+        y: 50,
+      },
+      itemSize: {
+        x: 60,
+        y: 100,
+      },
+    },
+  });
+
+  // start app
+  mercury.app(document.body, grid.state, Grid.render);
+
+  function mouseDown (el, state) {
+    var start = {
+      x: el.clientWidth / 2,
+      y: state.config.edgeSize.y / 2,
+    };
+
+    el.dispatchEvent(event("mousedown", {
+      target: el,
+      offsetX: start.x,
+      offsetY: start.y,
+    }));
+
+    return start;
+  }
+
+  raf(function () {
+    var el = document.getElementsByClassName('grid ui')[0];
+    var state = grid.state();
+
+    simulateClient(el, state);
+    var start = mouseDown(el, state);
+
+    // ease from start to end
+    // for each delta, emit mousemove event
+    // on raf, assert shape then repeat
+
+    end(t, el);
+  });
+});
