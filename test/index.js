@@ -42,13 +42,10 @@ test("creating a 4x4 grid of random content", function (t) {
     t.equal(el.style.paddingRight, "40px");
     t.equal(el.style.paddingTop, "40px");
 
-    var debugToggle = el.childNodes[0];
-    t.ok(debugToggle);
-    t.equal(debugToggle.className, "debug toggle");
-    var controls = el.childNodes[1];
+    var controls = el.childNodes[0];
     t.ok(controls);
     t.equal(controls.className, "controls");
-    var rows = el.childNodes[2];
+    var rows = el.childNodes[1];
     t.ok(rows);
     t.equal(rows.className, "rows");
 
