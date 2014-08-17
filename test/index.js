@@ -73,3 +73,81 @@ test("creating a 4x4 grid of random content", function (t) {
     end(t, el);
   });
 });
+
+test("change shape of grid with controls", function (t) {
+  // setup
+  var data = [
+    0,1,2,3,4,5
+  ];
+  var grid = Grid({
+    model: new Ndarray(data, [2, 3]),
+    config: {
+      debug: true,
+    },
+  });
+
+  // start app
+  mercury.app(document.body, grid.state, Grid.render);
+
+  function assertShape (el, data, shape) {
+    var ndarray = new Ndarray(data, shape);
+
+    var rows = el.getElementsByClassName('rows')[0];
+    t.equal(rows.childNodes.length, shape[1]);
+
+    for (var y = 0; y < rows.childNodes.length; y++) {
+      var row = rows.childNodes[y];
+      t.equal(row.childNodes.length, shape[0]);
+
+      for (var x = 0; x < row.childNodes.length; x++) {
+        var itemContainer = row.childNodes[x];
+        var item = itemContainer.childNodes[0];
+        t.equal(
+          item.textContent || item.data,
+          stringify(ndarray.get(x, y))
+        );
+      }
+    }
+  }
+
+  function changeShape (el, shape) {
+
+    if (shape[0]) {
+      var xControl = el.getElementsByClassName('shape x control')[0];
+      var xInput = xControl.getElementsByClassName('input')[0];
+      xInput.value = shape[0].toString();
+      xInput.dispatchEvent(event('input', { bubbles: true }));
+    }
+
+    if (shape[1]) {
+      var yControl = el.getElementsByClassName('shape y control')[0];
+      var yInput = yControl.getElementsByClassName('input')[0];
+      yInput.value = shape[1].toString();
+      yInput.dispatchEvent(event('input', { bubbles: true }));
+    }
+  }
+
+  // animate
+  raf(function () {
+    var el = document.getElementsByClassName('grid ui')[0];
+
+    assertShape(el, data, [2, 3]);
+    changeShape(el, [3, 2]);
+
+    raf(function () {
+      assertShape(el, data, [3, 2]);
+      changeShape(el, [1, 6]);
+
+      raf(function () {
+        assertShape(el, data, [1, 6]);
+        changeShape(el, [6, 1]);
+
+        raf(function () {
+          assertShape(el, data, [6, 1]);
+
+          end(t, el);
+        });
+      });
+    });
+  });
+});
