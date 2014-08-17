@@ -95,7 +95,7 @@ Grid.render = function (state, events) {
     state.config.debugToggle ? h('input.debug.toggle', {
       type: "checkbox",
       name: "debug",
-      checked: state.config.debug.toString(),
+      checked: state.config.debug,
       'ev-event': mercury.changeEvent(state.events.setDebug),
     }) : [],
     h('div.controls', {}, state.config.debug ? [
