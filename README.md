@@ -20,7 +20,7 @@ npm i --save grid-ui
 
 ## example
 
-see [an example app](./example/app.js).
+`npm run example` to run an [an example app](./example/app.js).
 
 ## license
 
