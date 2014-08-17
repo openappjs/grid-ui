@@ -91,7 +91,7 @@ Grid.render = function (state, events) {
       shape: state.model.shape,
     }),
   }, [
-    h('input.debug', {
+    h('input.debug.toggle', {
       type: "checkbox",
       name: "debug",
       checked: state.config.debug ? "checked" : null,
