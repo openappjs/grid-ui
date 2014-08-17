@@ -36,6 +36,7 @@ var grid = Grid({
   model: new Ndarray(items, shape),
   config: {
     debug: true,
+    debugToggle: true,
     edgeSize: 40,
     itemSize: {
       x: 80,

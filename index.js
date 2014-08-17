@@ -17,6 +17,7 @@ function Grid (options) {
     model: ObservNdarray(options.model),
     config: mercury.struct({
       debug: mercury.value(options.config.debug || false),
+      debugToggle: mercury.value(options.config.debugToggle || false),
       edgeSize: mercury.struct({
         x: config.edgeSize && config.edgeSize.x || config.edgeSize || 40,
         y: config.edgeSize && config.edgeSize.y || config.edgeSize || 40,
@@ -91,12 +92,12 @@ Grid.render = function (state, events) {
       shape: state.model.shape,
     }),
   }, [
-    h('input.debug.toggle', {
+    state.config.debugToggle ? h('input.debug.toggle', {
       type: "checkbox",
       name: "debug",
       checked: state.config.debug.toString(),
       'ev-event': mercury.changeEvent(state.events.setDebug),
-    }),
+    }) : [],
     h('div.controls', {}, state.config.debug ? [
       h('div.control.shape.x', {}, [
         h('label.label', {
