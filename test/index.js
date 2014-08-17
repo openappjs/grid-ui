@@ -29,29 +29,35 @@ test("4x4 grid creation", function (t) {
 
   // after render
   raf(function () {
-    var el = document.querySelector('.grid.ui');
+    var el = document.getElementsByClassName('grid')[0];
 
-    t.equal(el.style.padding, "40px");
+    t.equal(el.style.paddingBottom, "40px");
+    t.equal(el.style.paddingLeft, "40px");
+    t.equal(el.style.paddingRight, "40px");
+    t.equal(el.style.paddingTop, "40px");
 
-    var debugToggle = el.querySelector('.debug');
-    t.equal(debugToggle, el.childNodes.item(0));
-    var controls = el.querySelector('.controls');
-    t.equal(controls, el.childNodes.item(1));
-    var rows = el.querySelector('.rows');
-    t.equal(rows, el.childNodes.item(2));
+    var debugToggle = el.childNodes[0];
+    t.ok(debugToggle);
+    t.equal(debugToggle.className, "debug");
+    var controls = el.childNodes[1];
+    t.ok(controls);
+    t.equal(controls.className, "controls");
+    var rows = el.childNodes[2];
+    t.ok(rows);
+    t.equal(rows.className, "rows");
 
     for (var y = 0; y < rows.childNodes.length; y++) {
-      var row = rows.childNodes.item(y);
+      var row = rows.childNodes[y];
       t.equal(row.className, "row");
       
       for (var x = 0; x < row.childNodes.length; x++) {
-        var itemContainer = row.childNodes.item(x);
+        var itemContainer = row.childNodes[x];
         t.equal(itemContainer.className, "item");
         t.equal(itemContainer.style.height, "80px");
         t.equal(itemContainer.style.width, "80px");
         t.equal(itemContainer.childNodes.length, 1);
-        var item = itemContainer.childNodes.item(0);
-        t.equal(item.textContent, ndarray.get(x, y).toString());
+        var item = itemContainer.childNodes[0];
+        t.equal(item.textContent || item.data, ndarray.get(x, y).toString());
       }
     }
 
