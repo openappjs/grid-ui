@@ -35,7 +35,8 @@ function Grid (options) {
     debug("setShape", data);
     // get arguments
     var shapeDim = data.dim;
-    var shapeVal = parseInt(data.shape, 10);
+    var shapeStr = data.shape || data['shape.x'] || data['shape.y'];
+    var shapeVal = parseInt(shapeStr, 10);
 
     // get current value
     var ndarray = state.model();
@@ -97,22 +98,32 @@ Grid.render = function (state, events) {
       'ev-event': mercury.changeEvent(state.events.setDebug),
     }),
     h('div.controls', {}, state.config.debug ? [
-      h('input', {
-        type: "number",
-        name: "shape",
-        value: state.model.shape[0],
-        'ev-event': mercury.changeEvent(state.events.setShape, {
-          dim: 0,
+      h('div.control.shape.x', {}, [
+        h('label.label', {
+          htmlFor: "shape.x",
+        }, "shape.x"),
+        h('input.input', {
+          type: "number",
+          name: "shape.x",
+          value: state.model.shape[0],
+          'ev-event': mercury.changeEvent(state.events.setShape, {
+            dim: 0,
+          }),
         }),
-      }),
-      h('input', {
-        type: "number",
-        name: "shape",
-        value: state.model.shape[1],
-        'ev-event': mercury.changeEvent(state.events.setShape, {
-          dim: 1,
+      ]),
+      h('div.control.shape.y', {}, [
+        h('label.label', {
+          htmlFor: "shape.y",
+        }, "shape.y"),
+        h('input.input', {
+          type: "number",
+          name: "shape.y",
+          value: state.model.shape[1],
+          'ev-event': mercury.changeEvent(state.events.setShape, {
+            dim: 1,
+          }),
         }),
-      }),
+      ]),
     ] : []),
     h('div.rows', {}, rows.map(function (row) {
       return h('div.row', {}, row.map(function (item) {
