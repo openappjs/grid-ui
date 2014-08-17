@@ -37,6 +37,22 @@
     "url": "https://github.com/ahdinosaur/grid-ui/issues"
   },
   "homepage": "https://github.com/ahdinosaur/grid-ui",
+  "testling": {
+    "files": "test/index.js",
+    "browsers": [
+      "ie/9..latest",
+      "firefox/26..latest",
+      "firefox/nightly",
+      "chrome/31..latest",
+      "chrome/canary",
+      "opera/18..latest",
+      "opera/next",
+      "safari/5.1..latest",
+      "ipad/6.0..latest",
+      "iphone/6.0..latest",
+      "android-browser/4.2..latest"
+    ]
+  },
   "dependencies": {
     "debug": "^1.0.4",
     "mercury": "^6.0.1",
