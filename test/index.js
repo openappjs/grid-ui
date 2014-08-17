@@ -8,6 +8,12 @@ var stringify = require('node-stringify');
 
 var Grid = require('../');
 
+function end (t, el) {
+  // cleanup
+  document.body.removeChild(el);
+  t.end();
+}
+
 test("creating a 4x4 grid of random content", function (t) {
   // setup
   var ndarray = new Ndarray([
@@ -64,8 +70,6 @@ test("creating a 4x4 grid of random content", function (t) {
       }
     }
 
-    // cleanup
-    document.body.removeChild(el);
-    t.end();
+    end(t, el);
   });
 });
