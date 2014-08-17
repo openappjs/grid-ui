@@ -35,7 +35,7 @@ test("creating a 4x4 grid of random content", function (t) {
 
   // after render
   raf(function () {
-    var el = document.getElementsByClassName('grid')[0];
+    var el = document.getElementsByClassName('grid ui')[0];
 
     t.equal(el.style.paddingBottom, "40px");
     t.equal(el.style.paddingLeft, "40px");
