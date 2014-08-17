@@ -71,6 +71,27 @@ test("creating a 4x4 grid of random content", function (t) {
   });
 });
 
+function assertShape (t, el, data, shape) {
+  var ndarray = new Ndarray(data, shape);
+
+  var rows = el.getElementsByClassName('rows')[0];
+  t.equal(rows.childNodes.length, shape[1]);
+
+  for (var y = 0; y < rows.childNodes.length; y++) {
+    var row = rows.childNodes[y];
+    t.equal(row.childNodes.length, shape[0]);
+
+    for (var x = 0; x < row.childNodes.length; x++) {
+      var itemContainer = row.childNodes[x];
+      var item = itemContainer.childNodes[0];
+      t.equal(
+        item.textContent || item.data,
+        stringify(ndarray.get(x, y))
+      );
+    }
+  }
+}
+
 test("change shape of grid with controls", function (t) {
   // setup
   var data = [
@@ -85,27 +106,6 @@ test("change shape of grid with controls", function (t) {
 
   // start app
   mercury.app(document.body, grid.state, Grid.render);
-
-  function assertShape (el, data, shape) {
-    var ndarray = new Ndarray(data, shape);
-
-    var rows = el.getElementsByClassName('rows')[0];
-    t.equal(rows.childNodes.length, shape[1]);
-
-    for (var y = 0; y < rows.childNodes.length; y++) {
-      var row = rows.childNodes[y];
-      t.equal(row.childNodes.length, shape[0]);
-
-      for (var x = 0; x < row.childNodes.length; x++) {
-        var itemContainer = row.childNodes[x];
-        var item = itemContainer.childNodes[0];
-        t.equal(
-          item.textContent || item.data,
-          stringify(ndarray.get(x, y))
-        );
-      }
-    }
-  }
 
   function changeShape (el, shape) {
 
@@ -128,19 +128,19 @@ test("change shape of grid with controls", function (t) {
   raf(function () {
     var el = document.getElementsByClassName('grid ui')[0];
 
-    assertShape(el, data, [2, 3]);
+    assertShape(t, el, data, [2, 3]);
     changeShape(el, [3, 2]);
 
     raf(function () {
-      assertShape(el, data, [3, 2]);
+      assertShape(t, el, data, [3, 2]);
       changeShape(el, [1, 6]);
 
       raf(function () {
-        assertShape(el, data, [1, 6]);
+        assertShape(t, el, data, [1, 6]);
         changeShape(el, [6, 1]);
 
         raf(function () {
-          assertShape(el, data, [6, 1]);
+          assertShape(t, el, data, [6, 1]);
 
           end(t, el);
         });
