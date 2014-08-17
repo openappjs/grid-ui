@@ -7,10 +7,10 @@ var document = require('global/document');
 
 var Grid = require('../');
 
-test("4x4 grid creation", function (t) {
+test("creating a 4x4 grid of numbers", function (t) {
   // setup
   var ndarray = new Ndarray([
-    "0","1","2","3","4","5",
+    0,1,2,3,4,5,
   ], [2,3]);
   var grid = Grid({
     model: ndarray,
