@@ -60,12 +60,16 @@
   },
   "devDependencies": {
     "beefy": "^2.1.0",
+    "coveralls": "^2.11.1",
     "cssify": "^0.5.1",
     "envify": "^2.0.1",
     "global": "^4.2.1",
+    "istanbul": "^0.3.0",
+    "ndarray": "^1.0.15",
     "raf": "^2.0.2",
     "run-browser": "^1.3.1",
-    "synthetic-dom-events": "^0.2.2",
+    "synthetic-dom-events": "git://github.com/Raynos/synthetic-dom-events",
+    "tap-spec": "^0.2.0",
     "tape": "^2.14.0"
   }
 }
