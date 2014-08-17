@@ -2,6 +2,7 @@ var debug = require('debug')('grid-ui');
 var mercury = require('mercury');
 var h = mercury.h;
 var ObservNdarray = require('observ-ndarray');
+var stringify = require('node-stringify');
 
 var edgeEvent = require('./lib/edgeEvent');
 
@@ -63,7 +64,9 @@ Grid.render = function (state, events) {
     var row = [];
     for (var x = 0; x < state.model.shape[0]; x++) {
       var item = state.model.get(x, y);
-      row.push(item.render && item.render(item) || item.toString());
+      row.push(
+        item && item.render && item.render(item) || stringify(item)
+      );
     }
     rows.push(row);
     if (state.model.shape[0] === 0) {

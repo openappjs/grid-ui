@@ -4,13 +4,14 @@ var Ndarray = require('ndarray');
 var raf = require('raf');
 var event = require('synthetic-dom-events');
 var document = require('global/document');
+var stringify = require('node-stringify');
 
 var Grid = require('../');
 
-test("creating a 4x4 grid of numbers", function (t) {
+test("creating a 4x4 grid of random content", function (t) {
   // setup
   var ndarray = new Ndarray([
-    0,1,2,3,4,5,
+    0,[],"",{},null,undefined,
   ], [2,3]);
   var grid = Grid({
     model: ndarray,
@@ -57,7 +58,10 @@ test("creating a 4x4 grid of numbers", function (t) {
         t.equal(itemContainer.style.width, "80px");
         t.equal(itemContainer.childNodes.length, 1);
         var item = itemContainer.childNodes[0];
-        t.equal(item.textContent || item.data, ndarray.get(x, y).toString());
+        t.equal(
+          item.textContent || item.data,
+          stringify(ndarray.get(x, y))
+        );
       }
     }
 
