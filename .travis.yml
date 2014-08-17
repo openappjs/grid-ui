@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+- '0.10'
+before_install:
+- npm install npm -g
+before_script:
+- npm install
+- npm install istanbul coveralls
+script: npm run travis-test
+env:
+  global:
+    secure: HGfmHDDnEMeUd6ls+hhIwk2lq0m/HdDaiWJiZqEHoG/ij0GunEj3pFe5r9l4cwhX8sYrMYJhdtzCShVjky2uTotr7VZmSv5y75jZTWOq7NrTDdaAN9rPW+fmsirhPpWS0xr4CItjLxoihbfIjn459XxBMRnX+w5FTBt/Mt8r0B0=
