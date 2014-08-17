@@ -3,6 +3,9 @@ var Ndarray = require('ndarray');
 
 var Grid = require('../');
 
+// include app styling
+require('./app.css');
+
 // include grid-ui styling
 require('../index.css');
 
