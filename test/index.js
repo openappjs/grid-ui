@@ -17,8 +17,9 @@ if (process.browser) {
   require('../index.css');
 }
 
-function end (t, el) {
+function end (t, el, elRm) {
   // cleanup
+  elRm();
   document.body.removeChild(el);
   t.end();
 }
@@ -40,7 +41,7 @@ test("creating a 4x4 grid of random content", function (t) {
   });
 
   // start app
-  mercury.app(document.body, grid.state, Grid.render);
+  var elRm = mercury.app(document.body, grid.state, Grid.render);
 
   // after render
   raf(function () {
@@ -76,7 +77,7 @@ test("creating a 4x4 grid of random content", function (t) {
       }
     }
 
-    end(t, el);
+    end(t, el, elRm);
   });
 });
 
@@ -114,7 +115,7 @@ test("change shape of grid with controls", function (t) {
   });
 
   // start app
-  mercury.app(document.body, grid.state, Grid.render);
+  var elRm = mercury.app(document.body, grid.state, Grid.render);
 
   function changeShape (el, shape) {
 
@@ -151,7 +152,7 @@ test("change shape of grid with controls", function (t) {
         raf(function () {
           assertShape(t, el, data, [6, 1]);
 
-          end(t, el);
+          end(t, el, elRm);
         });
       });
     });
