@@ -5,6 +5,7 @@ var raf = require('raf');
 var event = require('synthetic-dom-events');
 var document = require('global/document');
 var stringify = require('node-stringify');
+var TWEEN = require('tween.js');
 
 var Grid = require('../');
 
@@ -186,21 +187,14 @@ test("change shape of grid by dragging right edge", function (t) {
   });
 
   // start app
-  mercury.app(document.body, grid.state, Grid.render);
+  var elRm = mercury.app(document.body, grid.state, Grid.render);
 
-  function mouseDown (el, state) {
-    var start = {
-      x: el.clientWidth / 2,
-      y: state.config.edgeSize.y / 2,
-    };
-
-    el.dispatchEvent(event("mousedown", {
+  function mouseEvent (type, el, position) {
+    el.dispatchEvent(event("mouse" + type, {
       target: el,
-      offsetX: start.x,
-      offsetY: start.y,
+      offsetX: position.x,
+      offsetY: position.y,
     }));
-
-    return start;
   }
 
   raf(function () {
@@ -208,12 +202,65 @@ test("change shape of grid by dragging right edge", function (t) {
     var state = grid.state();
 
     simulateClient(el, state);
-    var start = mouseDown(el, state);
 
-    // ease from start to end
-    // for each delta, emit mousemove event
-    // on raf, assert shape then repeat
+    var start = {
+      position: {
+        x: el.clientWidth - (state.config.edgeSize.x / 2),
+        y: state.config.edgeSize.y / 2,
+      },
+      shape: {
+        x: state.model.shape.slice()[0],
+        y: state.model.shape.slice()[1],
+      },
+    };
 
-    end(t, el);
+    var stop = {
+      x: Math.round(Math.random() * el.clientWidth),
+      y: Math.round(Math.random() * el.clientHeight),
+    }
+
+    var current;
+
+    mouseEvent("down", el, start);
+
+    var tween = new TWEEN.Tween(start)
+    .to(stop)
+    .onUpdate(function () {
+      current = this;
+      mouseEvent("move", el, current);
+      raf(function () {
+        var deltaPos = {
+          x: current.x - start.x,
+          y: current.y - start.y,
+        };
+        var newShape = [
+          start.shape.x + (deltaPos.x / state.config.itemSize.x),
+          start.shape.y + (deltaPos.y / state.config.itemSize.y),
+        ];
+        t.deepEqual(grid.state.model().shape.slice(), newShape);
+        assertShape(t, el, state.model.data, newShape);
+      });
+    })
+    .onComplete(function () {
+
+      raf(function () {
+        console.log("complete", current)
+        mouseEvent("up", el, current);
+
+        raf(function () {
+          end(t, el, elRm);
+        });
+      })
+
+    })
+    .start()
+    ;
+
+    animate();
+
+    function animate () {
+      raf(animate);
+      TWEEN.update();
+    }
   });
 });
