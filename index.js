@@ -66,9 +66,11 @@ Grid.render = function (state, events) {
     var row = [];
     for (var x = 0; x < state.model.shape[0]; x++) {
       var item = state.model.get(x, y);
-      row.push(
-        item && item.render && item.render(item) || stringify(item)
-      );
+      if (typeof item !== 'undefined') {
+        row.push(
+          item && item.render && item.render(item) || stringify(item)
+        );
+      }
     }
     rows.push(row);
     if (state.model.shape[0] === 0) {
