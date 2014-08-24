@@ -1,17 +1,30 @@
 .ui.grid {
   display: inline-block;
-  border: 1px black;
-  padding: 60px;
 }
 .ui.grid > .controls {
   display: block;
 }
-.ui.grid > .rows {
+.ui.grid > .table {
   display: inline;
 }
-.ui.grid > .rows > .row {
-  display: block;
+.ui.grid > .table > .row {
+  box-sizing: border-box;
+  display: table;
+  table-layout: fixed;
 }
-.ui.grid > .rows > .row > .item {
-  display: inline-block;
+.ui.grid > .table > .row > .cell {
+  display: table-cell;
+  flex: 1;
+  flex-direction: column;
+  position: relative;
+  white-space: nowrap;
+}
+
+@supports(display: flex) {
+  .ui.grid > .table > .row {
+    display: flex;
+  }
+  .ui.grid > .table > .row > .cell {
+    display: block;
+  }
 }
