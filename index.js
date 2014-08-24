@@ -35,17 +35,35 @@ function Grid (options) {
   events.setShape(function (data) {
     debug("setShape", data);
     // get arguments
-    var shapeDim = data.dim;
-    var shapeStr = data.shape || data['shape.x'] || data['shape.y'];
-    var shapeVal = parseInt(shapeStr, 10);
+    var changedDim = data.dim;
+    var changedStr = data.shape || data['shape.x'] || data['shape.y'];
+    var changedVal = parseInt(changedStr, 10);
 
     // get current value
     var ndarray = state.model();
-    // set shape and associated stride on value
-    ndarray.shape[shapeDim] = shapeVal;
+
+    var otherDim = (changedDim === 0) ? 1 : 0;
+    var numItems = ndarray.data.length;
+
+    // min shape value is 1
+    changedVal = Math.max(changedVal, 1);
+
+    // max shape value is number of items
+    changedVal = Math.min(changedVal, numItems);
+
+    // other shape value is enough to display all items
+    var otherVal = Math.ceil(numItems / changedVal);
+
+    // set shape
+    ndarray.shape[changedDim] = changedVal;
+    ndarray.shape[otherDim] = otherVal;
+
+    debug("updated shape", ndarray.shape.slice())
+
+    // set stride from y shape
     ndarray.stride[0] = ndarray.shape[1];
 
-    // set value to be state
+    // update state
     state.model.set(ndarray);
   });
 

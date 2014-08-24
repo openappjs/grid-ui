@@ -140,15 +140,15 @@ test("change shape of grid with controls", function (t) {
     var el = document.getElementsByClassName('grid ui')[0];
 
     assertShape(t, el, data, [2, 3]);
-    changeShape(el, [3, 2]);
+    changeShape(el, [3, null]);
 
     raf(function () {
       assertShape(t, el, data, [3, 2]);
-      changeShape(el, [1, 6]);
+      changeShape(el, [1, null]);
 
       raf(function () {
         assertShape(t, el, data, [1, 6]);
-        changeShape(el, [6, 1]);
+        changeShape(el, [6, null]);
 
         raf(function () {
           assertShape(t, el, data, [6, 1]);
