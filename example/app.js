@@ -34,6 +34,11 @@ colors.forEach(function (color) {
 // create grid-ui component
 var grid = Grid({
   model: new Ndarray(items, shape),
+  style: {
+    grid: {
+      backgroundColor: 'green',
+    },
+  },
   config: {
     debug: true,
     debugToggle: true,
