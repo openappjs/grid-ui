@@ -31,9 +31,9 @@ function Grid (options) {
         x: config.edgeSize && config.edgeSize.x || config.edgeSize || 40,
         y: config.edgeSize && config.edgeSize.y || config.edgeSize || 40,
       }),
-      itemSize: mercury.struct({
-        x: config.itemSize && config.itemSize.x || config.itemSize || 80,
-        y: config.itemSize && config.itemSize.y || config.itemSize || 80,
+      cellSize: mercury.struct({
+        x: config.cellSize && config.cellSize.x || config.cellSize || 80,
+        y: config.cellSize && config.cellSize.y || config.cellSize || 80,
       }),
     }),
     events: events,
@@ -52,16 +52,16 @@ function Grid (options) {
     var ndarray = state.model();
 
     var otherDim = (changedDim === 0) ? 1 : 0;
-    var numItems = ndarray.data.length;
+    var numCells = ndarray.data.length;
 
     // min shape value is 1
     changedVal = Math.max(changedVal, 1);
 
-    // max shape value is number of items
-    changedVal = Math.min(changedVal, numItems);
+    // max shape value is number of cells
+    changedVal = Math.min(changedVal, numCells);
 
-    // other shape value is enough to display all items
-    var otherVal = Math.ceil(numItems / changedVal);
+    // other shape value is enough to display all cells
+    var otherVal = Math.ceil(numCells / changedVal);
 
     // set shape
     ndarray.shape[changedDim] = changedVal;
@@ -113,7 +113,7 @@ Grid.render = function (state, events) {
     }, state.style.grid),
     'ev-mousedown': edgeEvent(state.events.setShape, {
       edgeSize: state.config.edgeSize,
-      itemSize: state.config.itemSize,
+      cellSize: state.config.cellSize,
       shape: state.model.shape,
     }),
   }, [
@@ -161,8 +161,8 @@ Grid.render = function (state, events) {
       }, row.map(function (cell) {
         return h('div.cell', {
           style: extend({
-            width: state.config.itemSize.x + "px",
-            height: state.config.itemSize.y + "px",
+            width: state.config.cellSize.x + "px",
+            height: state.config.cellSize.y + "px",
           }, state.style.cell),
         }, cell)
       }));

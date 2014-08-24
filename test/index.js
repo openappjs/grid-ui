@@ -34,7 +34,7 @@ test("creating a 4x4 grid of random content", function (t) {
     model: ndarray,
     config: {
       edgeSize: 40,
-      itemSize: {
+      cellSize: {
         x: 80,
         y: 80,
       },
@@ -56,23 +56,23 @@ test("creating a 4x4 grid of random content", function (t) {
     var controls = el.childNodes[0];
     t.ok(controls);
     t.equal(controls.className, "controls");
-    var rows = el.childNodes[1];
-    t.ok(rows);
-    t.equal(rows.className, "rows");
+    var table = el.childNodes[1];
+    t.ok(table);
+    t.equal(table.className, "table");
 
-    for (var y = 0; y < rows.childNodes.length; y++) {
-      var row = rows.childNodes[y];
+    for (var y = 0; y < table.childNodes.length; y++) {
+      var row = table.childNodes[y];
       t.equal(row.className, "row");
       
       for (var x = 0; x < row.childNodes.length; x++) {
-        var itemContainer = row.childNodes[x];
-        t.equal(itemContainer.className, "item");
-        t.equal(itemContainer.style.height, "80px");
-        t.equal(itemContainer.style.width, "80px");
-        t.equal(itemContainer.childNodes.length, 1);
-        var item = itemContainer.childNodes[0];
+        var cellContainer = row.childNodes[x];
+        t.equal(cellContainer.className, "cell");
+        t.equal(cellContainer.style.height, "80px");
+        t.equal(cellContainer.style.width, "80px");
+        t.equal(cellContainer.childNodes.length, 1);
+        var cell = cellContainer.childNodes[0];
         t.equal(
-          item.textContent || item.data,
+          cell.textContent || cell.data,
           stringify(ndarray.get(x, y))
         );
       }
@@ -85,18 +85,18 @@ test("creating a 4x4 grid of random content", function (t) {
 function assertShape (t, el, data, shape) {
   var ndarray = new Ndarray(data, shape);
 
-  var rows = el.getElementsByClassName('rows')[0];
-  t.equal(rows.childNodes.length, shape[1]);
+  var table = el.getElementsByClassName('table')[0];
+  t.equal(table.childNodes.length, shape[1]);
 
-  for (var y = 0; y < rows.childNodes.length; y++) {
-    var row = rows.childNodes[y];
+  for (var y = 0; y < table.childNodes.length; y++) {
+    var row = table.childNodes[y];
     t.equal(row.childNodes.length, shape[0]);
 
     for (var x = 0; x < row.childNodes.length; x++) {
-      var itemContainer = row.childNodes[x];
-      var item = itemContainer.childNodes[0];
+      var cellContainer = row.childNodes[x];
+      var cell = cellContainer.childNodes[0];
       t.equal(
-        item.textContent || item.data,
+        cell.textContent || cell.data,
         stringify(ndarray.get(x, y))
       );
     }
@@ -163,9 +163,9 @@ test("change shape of grid with controls", function (t) {
 function simulateClient (el, state) {
   var shape = state.model.shape.slice();
   el.clientWidth = el.clientWidth ||
-    (state.config.itemSize.x * shape[0] + (state.config.edgeSize.x * 2));
+    (state.config.cellSize.x * shape[0] + (state.config.edgeSize.x * 2));
   el.clientHeight = el.clientHeight ||
-    (state.config.itemSize.y * shape[1] + (state.config.edgeSize.y * 2));
+    (state.config.cellSize.y * shape[1] + (state.config.edgeSize.y * 2));
 }
 
 test("change shape of grid by dragging right edge", function (t) {
@@ -179,7 +179,7 @@ test("change shape of grid by dragging right edge", function (t) {
         x: 80,
         y: 50,
       },
-      itemSize: {
+      cellSize: {
         x: 60,
         y: 100,
       },
@@ -234,8 +234,8 @@ test("change shape of grid by dragging right edge", function (t) {
           y: current.y - start.y,
         };
         var newShape = [
-          start.shape.x + (deltaPos.x / state.config.itemSize.x),
-          start.shape.y + (deltaPos.y / state.config.itemSize.y),
+          start.shape.x + (deltaPos.x / state.config.cellSize.x),
+          start.shape.y + (deltaPos.y / state.config.cellSize.y),
         ];
         t.deepEqual(grid.state.model().shape.slice(), newShape);
         assertShape(t, el, state.model.data, newShape);

@@ -43,7 +43,7 @@ var grid = Grid({
     debug: true,
     debugToggle: true,
     edgeSize: 40,
-    itemSize: {
+    cellSize: {
       x: 80,
       y: 80,
     },
