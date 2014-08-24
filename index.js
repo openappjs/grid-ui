@@ -3,11 +3,13 @@ var mercury = require('mercury');
 var h = mercury.h;
 var ObservNdarray = require('observ-ndarray');
 var stringify = require('node-stringify');
+var extend = require('xtend');
 
 var edgeEvent = require('./lib/edgeEvent');
 
 function Grid (options) {
   options = options || {};
+  var style = options.style || {};
   var config = options.config || {};
 
   var events = mercury.input(["setShape", "setDebug"]);
@@ -15,6 +17,13 @@ function Grid (options) {
   // setup state
   var state = mercury.struct({
     model: ObservNdarray(options.model),
+    style: mercury.struct({
+      grid: mercury.value(style.grid || {}),
+      controls: mercury.value(style.controls || {}),
+      table: mercury.value(style.table || {}),
+      row: mercury.value(style.row || {}),
+      cell: mercury.value(style.cell || {}),
+    }),
     config: mercury.struct({
       debug: mercury.value(options.config.debug || false),
       debugToggle: mercury.value(options.config.debugToggle || false),
@@ -79,27 +88,29 @@ function Grid (options) {
 Grid.render = function (state, events) {
   debug("render", state, events);
 
-  var rows = [];
+  var table = [];
   for (var y = 0; y < state.model.shape[1]; y++) {
     var row = [];
     for (var x = 0; x < state.model.shape[0]; x++) {
-      var item = state.model.get(x, y);
-      if (typeof item !== 'undefined') {
+      var cell = state.model.get(x, y);
+      if (typeof cell !== 'undefined') {
         row.push(
-          item && item.render && item.render(item) || stringify(item)
+          cell && cell.render && cell.render(cell) || stringify(cell)
         );
       }
     }
-    rows.push(row);
+    table.push(row);
   }
 
+  debug("rendering table", table);
+
   return h('div.ui.grid', {
-    style: {
+    style: extend({
       paddingBottom: state.config.edgeSize.y + "px",
       paddingLeft: state.config.edgeSize.x + "px",
       paddingRight: state.config.edgeSize.x + "px",
       paddingTop: state.config.edgeSize.y + "px",
-    },
+    }, state.style.grid),
     'ev-mousedown': edgeEvent(state.events.setShape, {
       edgeSize: state.config.edgeSize,
       itemSize: state.config.itemSize,
@@ -112,7 +123,9 @@ Grid.render = function (state, events) {
       checked: state.config.debug,
       'ev-event': mercury.changeEvent(state.events.setDebug),
     }) : [],
-    h('div.controls', {}, state.config.debug ? [
+    h('div.controls', {
+      style: state.style.controls,
+    }, state.config.debug ? [
       h('div.control.shape.x', {}, [
         h('label.label', {
           htmlFor: "shape.x",
@@ -140,14 +153,18 @@ Grid.render = function (state, events) {
         }),
       ]),
     ] : []),
-    h('div.rows', {}, rows.map(function (row) {
-      return h('div.row', {}, row.map(function (item) {
-        return h('div.item', {
-          style: {
+    h('div.table', {
+      style: state.style.table,
+    }, table.map(function (row) {
+      return h('div.row', {
+        style: state.style.row,
+      }, row.map(function (cell) {
+        return h('div.cell', {
+          style: extend({
             width: state.config.itemSize.x + "px",
             height: state.config.itemSize.y + "px",
-          },
-        }, item)
+          }, state.style.cell),
+        }, cell)
       }));
     }))
   ])
