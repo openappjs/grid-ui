@@ -1,13 +1,13 @@
 var mercury = require('mercury');
 var Ndarray = require('ndarray');
 
-var Grid = require('../');
+var Grid = require('../../');
 
 // include app styling
-require('./app.css');
+require('./index.css');
 
 // include grid-ui styling
-require('../index.css');
+require('../../index.css');
 
 // include item component and styling
 var Item = require('./item');
