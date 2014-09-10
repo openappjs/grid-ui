@@ -25,8 +25,8 @@ function Grid (options) {
       cell: mercury.value(style.cell || {}),
     }),
     config: mercury.struct({
-      debug: mercury.value(options.config.debug || false),
-      debugToggle: mercury.value(options.config.debugToggle || false),
+      debug: mercury.value(config.debug || false),
+      debugToggle: mercury.value(config.debugToggle || false),
       edgeSize: mercury.struct({
         x: config.edgeSize && config.edgeSize.x || config.edgeSize || 40,
         y: config.edgeSize && config.edgeSize.y || config.edgeSize || 40,
